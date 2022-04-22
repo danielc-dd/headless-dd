@@ -12,7 +12,7 @@ const appConfig = {
    * @type {[key: 'twitterUrl' | 'facebookUrl' | 'instagramUrl' | 'youtubeUrl' | 'githubUrl' | 'linkedinUrl']: string}
    */
   socialLinks: {
-    twitterUrl: 'https://twitter.com/wpengine',
+    twitterUrl: 'https://twitter.com/wpengine12',
     facebookUrl: 'https://www.facebook.com/wpengine',
     instagramUrl: 'https://www.instagram.com/wpengine/',
     youtubeUrl: 'https://youtube.com/wpengine',
