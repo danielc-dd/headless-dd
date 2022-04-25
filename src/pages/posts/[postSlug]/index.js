@@ -15,6 +15,7 @@ export function PostComponent({ post }) {
   const { useQuery } = client;
   const generalSettings = useQuery().generalSettings;
 
+
   return (
     <>
       <SEO
@@ -40,6 +41,11 @@ export function PostComponent({ post }) {
             <TaxonomyTerms post={post} taxonomy={'categories'} />
             <TaxonomyTerms post={post} taxonomy={'tags'} />
           </ContentWrapper>
+
+          {post?.test?.testfield && (
+            <div className="testfield">{post.test.testfield}</div>
+          ) }
+
         </div>
       </Main>
 

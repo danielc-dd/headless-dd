@@ -4,10 +4,9 @@ import { FormatDate } from 'components';
  * @param {string} props.date The post publish date.
  * @param {string} props.author The post author's name.
  * @param {string} props.className An optional className to be added to the PostInfo.
- * @param {string} props.test.testfield An optional className to be added to the PostInfo.
  * @returns {React.ReactElement} The PostInfo component
  */
-export default function PostInfo({ className, author, date, testfield }) {
+export default function PostInfo({ className, author, date }) {
   if (!date && !author) {
     return null;
   }
@@ -22,7 +21,6 @@ export default function PostInfo({ className, author, date, testfield }) {
       {date && author && <>&nbsp;</>}
       {author && <span>By {author}</span>}
       <br/>
-      <span>test {testfield}</span>
     </div>
   );
 }
