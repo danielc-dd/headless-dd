@@ -1366,6 +1366,23 @@ export interface PageToRevisionConnectionWhereArgs {
   title?: InputMaybe<Scalars['String']>;
 }
 
+/** The status of the WordPress plugin. */
+export type PluginStatusEnum =
+  /** The plugin is currently active. */
+  | 'ACTIVE'
+  /** The plugin is a drop-in plugin. */
+  | 'DROP_IN'
+  /** The plugin is currently inactive. */
+  | 'INACTIVE'
+  /** The plugin is a must-use plugin. */
+  | 'MUST_USE'
+  /** The plugin is technically active but was paused while loading. */
+  | 'PAUSED'
+  /** The plugin was active recently. */
+  | 'RECENTLY_ACTIVE'
+  /** The plugin has an upgrade available. */
+  | 'UPGRADE';
+
 /** Set relationships between the post to categories */
 export interface PostCategoriesInput {
   /** If true, this will append the category to existing related categories. If false, this will replace existing relationships. Default true. */
@@ -1583,6 +1600,8 @@ export interface PostPostFormatsNodeInput {
 
 /** The status of the object. */
 export type PostStatusEnum =
+  /** Objects with the acf-disabled status */
+  | 'ACF_DISABLED'
   /** Objects with the auto-draft status */
   | 'AUTO_DRAFT'
   /** Objects with the draft status */
@@ -2308,6 +2327,16 @@ export interface RootQueryToPageConnectionWhereArgs {
   status?: InputMaybe<PostStatusEnum>;
   /** Title of the object */
   title?: InputMaybe<Scalars['String']>;
+}
+
+/** Arguments for filtering the RootQueryToPluginConnection connection */
+export interface RootQueryToPluginConnectionWhereArgs {
+  /** Show plugin based on a keyword search. */
+  search?: InputMaybe<Scalars['String']>;
+  /** Retrieve plugins where plugin status is in an array. */
+  stati?: InputMaybe<Array<InputMaybe<PluginStatusEnum>>>;
+  /** Show plugins with a specific status. */
+  status?: InputMaybe<PluginStatusEnum>;
 }
 
 /** Arguments for filtering the RootQueryToPostConnection connection */
@@ -3547,6 +3576,11 @@ export type UsersConnectionSearchColumnEnum =
 
 export declare const scalarsEnumsHash: import('gqty').ScalarsEnumsHash;
 export declare const generatedSchema: {
+  AcfFieldGroup: {
+    __typename: { __type: 'String!' };
+    fieldGroupName: { __type: 'String' };
+    $on: { __type: '$AcfFieldGroup!' };
+  };
   AtlasContentModelerSettingsSettings: {
     __typename: { __type: 'String!' };
     atlasContentModelerUsageTracking: { __type: 'String' };
@@ -3796,6 +3830,14 @@ export declare const generatedSchema: {
   };
   CommentAuthor: {
     __typename: { __type: 'String!' };
+    avatar: {
+      __type: 'Avatar';
+      __args: {
+        forceDefault: 'Boolean';
+        rating: 'AvatarRatingEnum';
+        size: 'Int';
+      };
+    };
     databaseId: { __type: 'Int!' };
     email: { __type: 'String' };
     id: { __type: 'ID!' };
@@ -3890,6 +3932,7 @@ export declare const generatedSchema: {
   };
   Commenter: {
     __typename: { __type: 'String!' };
+    avatar: { __type: 'Avatar' };
     databaseId: { __type: 'Int!' };
     email: { __type: 'String' };
     id: { __type: 'ID!' };
@@ -5285,6 +5328,7 @@ export declare const generatedSchema: {
         where: 'PostToTermNodeConnectionWhereArgs';
       };
     };
+    test: { __type: 'Post_Test' };
     title: {
       __type: 'String';
       __args: { format: 'PostObjectFieldFormatEnum' };
@@ -5705,6 +5749,11 @@ export declare const generatedSchema: {
     viewItem: { __type: 'String' };
     viewItems: { __type: 'String' };
   };
+  Post_Test: {
+    __typename: { __type: 'String!' };
+    fieldGroupName: { __type: 'String' };
+    testfield: { __type: 'String' };
+  };
   Project: {
     __typename: { __type: 'String!' };
     author: { __type: 'NodeWithAuthorToUserConnectionEdge' };
@@ -6092,6 +6141,11 @@ export declare const generatedSchema: {
     __typename: { __type: 'String!' };
     cursor: { __type: 'String' };
     node: { __type: 'Plugin' };
+  };
+  RootQueryToPluginConnectionWhereArgs: {
+    search: { __type: 'String' };
+    stati: { __type: '[PluginStatusEnum]' };
+    status: { __type: 'PluginStatusEnum' };
   };
   RootQueryToPostConnection: {
     __typename: { __type: 'String!' };
@@ -7627,7 +7681,13 @@ export declare const generatedSchema: {
     plugin: { __type: 'Plugin'; __args: { id: 'ID!' } };
     plugins: {
       __type: 'RootQueryToPluginConnection';
-      __args: { after: 'String'; before: 'String'; first: 'Int'; last: 'Int' };
+      __args: {
+        after: 'String';
+        before: 'String';
+        first: 'Int';
+        last: 'Int';
+        where: 'RootQueryToPluginConnectionWhereArgs';
+      };
     };
     post: {
       __type: 'Post';
@@ -7856,8 +7916,21 @@ export declare const generatedSchema: {
     NodeWithRevisions: ['Page', 'Post'];
     NodeWithExcerpt: ['Post'];
     NodeWithTrackbacks: ['Post'];
+    AcfFieldGroup: ['Post_Test'];
   };
 };
+
+/**
+ * A Field Group registered by ACF
+ */
+export interface AcfFieldGroup {
+  __typename?: 'Post_Test';
+  /**
+   * The name of the ACF Field Group
+   */
+  fieldGroupName?: Maybe<ScalarsEnums['String']>;
+  $on: $AcfFieldGroup;
+}
 
 /**
  * The atlasContentModelerSettings setting type
@@ -8423,6 +8496,24 @@ export interface Comment {
 export interface CommentAuthor {
   __typename?: 'CommentAuthor';
   /**
+   * Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument.
+   */
+  avatar: (args?: {
+    /**
+     * Whether to always show the default image, never the Gravatar. Default false
+     */
+    forceDefault?: Maybe<Scalars['Boolean']>;
+    /**
+     * The rating level of the avatar.
+     */
+    rating?: Maybe<AvatarRatingEnum>;
+    /**
+     * The size attribute of the avatar field can be used to fetch avatars of different sizes. The value corresponds to the dimension in pixels to fetch. The default is 96 pixels.
+     * @defaultValue `96`
+     */
+    size?: Maybe<Scalars['Int']>;
+  }) => Maybe<Avatar>;
+  /**
    * Identifies the primary key from the database.
    */
   databaseId: ScalarsEnums['Int'];
@@ -8520,6 +8611,10 @@ export interface CommentToParentCommentConnectionEdge {
  */
 export interface Commenter {
   __typename?: 'CommentAuthor' | 'User';
+  /**
+   * Avatar object for user. The avatar object can be retrieved in different sizes by specifying the size argument.
+   */
+  avatar?: Maybe<Avatar>;
   /**
    * Identifies the primary key from the database.
    */
@@ -11927,6 +12022,10 @@ export interface Post {
     where?: Maybe<PostToTermNodeConnectionWhereArgs>;
   }) => Maybe<PostToTermNodeConnection>;
   /**
+   * Added to the GraphQL Schema because the ACF Field Group &quot;testfield&quot; was set to Show in GraphQL.
+   */
+  test?: Maybe<Post_Test>;
+  /**
    * The title of the post. This is currently just the raw title. An amendment to support rendered title needs to be made.
    */
   title: (args?: {
@@ -12513,6 +12612,18 @@ export interface PostTypeLabelDetails {
    * Label for viewing post type archives.
    */
   viewItems?: Maybe<ScalarsEnums['String']>;
+}
+
+/**
+ * Field Group
+ */
+export interface Post_Test {
+  __typename?: 'Post_Test';
+  /**
+   * The name of the ACF Field Group
+   */
+  fieldGroupName?: Maybe<ScalarsEnums['String']>;
+  testfield?: Maybe<ScalarsEnums['String']>;
 }
 
 /**
@@ -14641,7 +14752,7 @@ export interface UpdateSettingsPayload {
    */
   allSettings?: Maybe<Settings>;
   /**
-   * Update the atlasContentModelerSettings setting.
+   * Update the AtlasContentModelerSettingsSettings setting.
    */
   atlasContentModelerSettingsSettings?: Maybe<AtlasContentModelerSettingsSettings>;
   /**
@@ -14649,19 +14760,19 @@ export interface UpdateSettingsPayload {
    */
   clientMutationId?: Maybe<ScalarsEnums['String']>;
   /**
-   * Update the discussion setting.
+   * Update the DiscussionSettings setting.
    */
   discussionSettings?: Maybe<DiscussionSettings>;
   /**
-   * Update the general setting.
+   * Update the GeneralSettings setting.
    */
   generalSettings?: Maybe<GeneralSettings>;
   /**
-   * Update the reading setting.
+   * Update the ReadingSettings setting.
    */
   readingSettings?: Maybe<ReadingSettings>;
   /**
-   * Update the writing setting.
+   * Update the WritingSettings setting.
    */
   writingSettings?: Maybe<WritingSettings>;
 }
@@ -15683,6 +15794,7 @@ export interface Query {
     before?: Maybe<Scalars['String']>;
     first?: Maybe<Scalars['Int']>;
     last?: Maybe<Scalars['Int']>;
+    where?: Maybe<RootQueryToPluginConnectionWhereArgs>;
   }) => Maybe<RootQueryToPluginConnection>;
   post: (args: {
     asPreview?: Maybe<Scalars['Boolean']>;
@@ -15943,6 +16055,7 @@ export interface SchemaObjectTypes {
   PostToTermNodeConnection: PostToTermNodeConnection;
   PostToTermNodeConnectionEdge: PostToTermNodeConnectionEdge;
   PostTypeLabelDetails: PostTypeLabelDetails;
+  Post_Test: Post_Test;
   Project: Project;
   ProjectToPreviewConnectionEdge: ProjectToPreviewConnectionEdge;
   Query: Query;
@@ -16164,6 +16277,7 @@ export type SchemaObjectTypesNames =
   | 'PostToTermNodeConnection'
   | 'PostToTermNodeConnectionEdge'
   | 'PostTypeLabelDetails'
+  | 'Post_Test'
   | 'Project'
   | 'ProjectToPreviewConnectionEdge'
   | 'Query'
@@ -16273,6 +16387,10 @@ export type SchemaObjectTypesNames =
   | 'UserToUserRoleConnectionEdge'
   | 'WPPageInfo'
   | 'WritingSettings';
+
+export interface $AcfFieldGroup {
+  Post_Test?: Post_Test;
+}
 
 export interface $Commenter {
   CommentAuthor?: CommentAuthor;
@@ -16472,6 +16590,7 @@ export interface ScalarsEnums extends MakeNullable<Scalars> {
   MimeTypeEnum: MimeTypeEnum | undefined;
   OrderEnum: OrderEnum | undefined;
   PageIdType: PageIdType | undefined;
+  PluginStatusEnum: PluginStatusEnum | undefined;
   PostFormatIdType: PostFormatIdType | undefined;
   PostIdType: PostIdType | undefined;
   PostObjectFieldFormatEnum: PostObjectFieldFormatEnum | undefined;

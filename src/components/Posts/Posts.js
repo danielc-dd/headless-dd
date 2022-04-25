@@ -26,7 +26,8 @@ function Posts({ posts, intro, id }) {
         {posts?.map((post, i) => {
           const isFirstNewResult = i === firstNewResultIndex;
           let image = post?.featuredImage?.node;
-
+          let postId = post.postId;
+          // let posttest = post.test.test;
           if (!image && appConfig.archiveDisplayFeaturedImage) {
             image = {
               sourceUrl: '/static/banner.jpeg',
@@ -55,7 +56,7 @@ function Posts({ posts, intro, id }) {
                 <Heading level="h4" className={styles.header}>
                   <Link href={post?.uri ?? '#'}>
                     <a ref={isFirstNewResult ? firstNewResultRef : null}>
-                      {post.title()}
+                      {post.title()} - {postId}
                     </a>
                   </Link>
                 </Heading>

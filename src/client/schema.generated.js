@@ -29,6 +29,7 @@ export const scalarsEnumsHash = {
   MimeTypeEnum: true,
   OrderEnum: true,
   PageIdType: true,
+  PluginStatusEnum: true,
   PostFormatIdType: true,
   PostIdType: true,
   PostObjectFieldFormatEnum: true,
@@ -51,6 +52,11 @@ export const scalarsEnumsHash = {
 };
 
 export const generatedSchema = {
+  AcfFieldGroup: {
+    __typename: { __type: 'String!' },
+    fieldGroupName: { __type: 'String' },
+    $on: { __type: '$AcfFieldGroup!' },
+  },
   AtlasContentModelerSettingsSettings: {
     __typename: { __type: 'String!' },
     atlasContentModelerUsageTracking: { __type: 'String' },
@@ -300,6 +306,14 @@ export const generatedSchema = {
   },
   CommentAuthor: {
     __typename: { __type: 'String!' },
+    avatar: {
+      __type: 'Avatar',
+      __args: {
+        forceDefault: 'Boolean',
+        rating: 'AvatarRatingEnum',
+        size: 'Int',
+      },
+    },
     databaseId: { __type: 'Int!' },
     email: { __type: 'String' },
     id: { __type: 'ID!' },
@@ -394,6 +408,7 @@ export const generatedSchema = {
   },
   Commenter: {
     __typename: { __type: 'String!' },
+    avatar: { __type: 'Avatar' },
     databaseId: { __type: 'Int!' },
     email: { __type: 'String' },
     id: { __type: 'ID!' },
@@ -1795,6 +1810,7 @@ export const generatedSchema = {
         where: 'PostToTermNodeConnectionWhereArgs',
       },
     },
+    test: { __type: 'Post_Test' },
     title: {
       __type: 'String',
       __args: { format: 'PostObjectFieldFormatEnum' },
@@ -2215,6 +2231,11 @@ export const generatedSchema = {
     viewItem: { __type: 'String' },
     viewItems: { __type: 'String' },
   },
+  Post_Test: {
+    __typename: { __type: 'String!' },
+    fieldGroupName: { __type: 'String' },
+    testfield: { __type: 'String' },
+  },
   Project: {
     __typename: { __type: 'String!' },
     author: { __type: 'NodeWithAuthorToUserConnectionEdge' },
@@ -2602,6 +2623,11 @@ export const generatedSchema = {
     __typename: { __type: 'String!' },
     cursor: { __type: 'String' },
     node: { __type: 'Plugin' },
+  },
+  RootQueryToPluginConnectionWhereArgs: {
+    search: { __type: 'String' },
+    stati: { __type: '[PluginStatusEnum]' },
+    status: { __type: 'PluginStatusEnum' },
   },
   RootQueryToPostConnection: {
     __typename: { __type: 'String!' },
@@ -4137,7 +4163,13 @@ export const generatedSchema = {
     plugin: { __type: 'Plugin', __args: { id: 'ID!' } },
     plugins: {
       __type: 'RootQueryToPluginConnection',
-      __args: { after: 'String', before: 'String', first: 'Int', last: 'Int' },
+      __args: {
+        after: 'String',
+        before: 'String',
+        first: 'Int',
+        last: 'Int',
+        where: 'RootQueryToPluginConnectionWhereArgs',
+      },
     },
     post: {
       __type: 'Post',
@@ -4366,5 +4398,6 @@ export const generatedSchema = {
     NodeWithRevisions: ['Page', 'Post'],
     NodeWithExcerpt: ['Post'],
     NodeWithTrackbacks: ['Post'],
+    AcfFieldGroup: ['Post_Test'],
   },
 };
