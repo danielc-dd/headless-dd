@@ -5753,6 +5753,13 @@ export declare const generatedSchema: {
     __typename: { __type: 'String!' };
     fieldGroupName: { __type: 'String' };
     testfield: { __type: 'String' };
+    testrepeater: { __type: '[Post_Test_testrepeater]' };
+  };
+  Post_Test_testrepeater: {
+    __typename: { __type: 'String!' };
+    fieldGroupName: { __type: 'String' };
+    repeaterText: { __type: 'String' };
+    repeaterTitle: { __type: 'String' };
   };
   Project: {
     __typename: { __type: 'String!' };
@@ -7916,7 +7923,7 @@ export declare const generatedSchema: {
     NodeWithRevisions: ['Page', 'Post'];
     NodeWithExcerpt: ['Post'];
     NodeWithTrackbacks: ['Post'];
-    AcfFieldGroup: ['Post_Test'];
+    AcfFieldGroup: ['Post_Test', 'Post_Test_testrepeater'];
   };
 };
 
@@ -7924,7 +7931,7 @@ export declare const generatedSchema: {
  * A Field Group registered by ACF
  */
 export interface AcfFieldGroup {
-  __typename?: 'Post_Test';
+  __typename?: 'Post_Test' | 'Post_Test_testrepeater';
   /**
    * The name of the ACF Field Group
    */
@@ -12624,6 +12631,20 @@ export interface Post_Test {
    */
   fieldGroupName?: Maybe<ScalarsEnums['String']>;
   testfield?: Maybe<ScalarsEnums['String']>;
+  testrepeater?: Maybe<Array<Maybe<Post_Test_testrepeater>>>;
+}
+
+/**
+ * Field Group
+ */
+export interface Post_Test_testrepeater {
+  __typename?: 'Post_Test_testrepeater';
+  /**
+   * The name of the ACF Field Group
+   */
+  fieldGroupName?: Maybe<ScalarsEnums['String']>;
+  repeaterText?: Maybe<ScalarsEnums['String']>;
+  repeaterTitle?: Maybe<ScalarsEnums['String']>;
 }
 
 /**
@@ -16056,6 +16077,7 @@ export interface SchemaObjectTypes {
   PostToTermNodeConnectionEdge: PostToTermNodeConnectionEdge;
   PostTypeLabelDetails: PostTypeLabelDetails;
   Post_Test: Post_Test;
+  Post_Test_testrepeater: Post_Test_testrepeater;
   Project: Project;
   ProjectToPreviewConnectionEdge: ProjectToPreviewConnectionEdge;
   Query: Query;
@@ -16278,6 +16300,7 @@ export type SchemaObjectTypesNames =
   | 'PostToTermNodeConnectionEdge'
   | 'PostTypeLabelDetails'
   | 'Post_Test'
+  | 'Post_Test_testrepeater'
   | 'Project'
   | 'ProjectToPreviewConnectionEdge'
   | 'Query'
@@ -16390,6 +16413,7 @@ export type SchemaObjectTypesNames =
 
 export interface $AcfFieldGroup {
   Post_Test?: Post_Test;
+  Post_Test_testrepeater?: Post_Test_testrepeater;
 }
 
 export interface $Commenter {

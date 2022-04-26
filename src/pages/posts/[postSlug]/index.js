@@ -46,6 +46,12 @@ export function PostComponent({ post }) {
             <div className="testfield">{post.test.testfield}</div>
           ) }
 
+        {post?.test?.testrepeater?.map((repeater) => (
+          <li>
+            {repeater.repeaterTitle}
+          </li>
+        ))}
+
         </div>
       </Main>
 

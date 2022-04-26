@@ -2235,6 +2235,13 @@ export const generatedSchema = {
     __typename: { __type: 'String!' },
     fieldGroupName: { __type: 'String' },
     testfield: { __type: 'String' },
+    testrepeater: { __type: '[Post_Test_testrepeater]' },
+  },
+  Post_Test_testrepeater: {
+    __typename: { __type: 'String!' },
+    fieldGroupName: { __type: 'String' },
+    repeaterText: { __type: 'String' },
+    repeaterTitle: { __type: 'String' },
   },
   Project: {
     __typename: { __type: 'String!' },
@@ -4398,6 +4405,6 @@ export const generatedSchema = {
     NodeWithRevisions: ['Page', 'Post'],
     NodeWithExcerpt: ['Post'],
     NodeWithTrackbacks: ['Post'],
-    AcfFieldGroup: ['Post_Test'],
+    AcfFieldGroup: ['Post_Test', 'Post_Test_testrepeater'],
   },
 };
