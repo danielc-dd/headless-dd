@@ -80,3 +80,25 @@ hr {
   color: #c53030;
   padding: 1rem;
 }
+
+
+.cols-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 64px 0;
+  box-shadow: $box-shadow;
+
+  .col-container {
+    width: 100%;
+    padding: 32px;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .cols-container {
+
+    .col-container {
+      width: 50%;
+    }
+  }
+}

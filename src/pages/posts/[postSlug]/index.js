@@ -15,7 +15,7 @@ export function PostComponent({ post }) {
   const { useQuery } = client;
   const generalSettings = useQuery().generalSettings;
 
-
+  console.log(post.test);
   return (
     <>
       <SEO
@@ -47,9 +47,16 @@ export function PostComponent({ post }) {
           ) }
 
         {post?.test?.testrepeater?.map((repeater, i) => (
-          <li key={i}>
-            {repeater.repeaterTitle}
-          </li>
+          <div className="cols-container" key={i}>
+            {/* <div className="col-container-left">
+              {repeater.repeaterTitle}
+            </div>
+            <div className="col-container-left">
+              {repeater.repeaterText}
+            </div> */}
+            <div className="col-container col-container-left" dangerouslySetInnerHTML={{ __html: repeater.repeaterTitle }} />
+            <div className="col-container col-container-right" dangerouslySetInnerHTML={{ __html: repeater.repeaterText }} />
+          </div>
         ))}
 
         </div>
